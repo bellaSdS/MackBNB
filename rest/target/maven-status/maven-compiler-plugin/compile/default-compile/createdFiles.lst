@@ -1,0 +1,4 @@
+com\example\rest\ProfessorController.class
+com\example\rest\RestApplication.class
+com\example\rest\ProfessorRepo.class
+com\example\rest\Professor.class
