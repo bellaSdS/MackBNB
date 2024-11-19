@@ -1,10 +1,188 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MackImóveis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: black;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+
+        .search-section {
+            padding: 40px 20px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .search-section input[type="text"] {
+            width: 60%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .search-section button {
+            padding: 15px 30px;
+            background-color: black;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .search-section button:hover {
+            background-color: #45a049;
+        }
+
+        .property-section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .property-card {
+            flex: 1 1 calc(33.333% - 20px);
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .property-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .property-details {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .property-details h3 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .property-details p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .property-details button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+        header img{
+            height: 50px;
+            width: 50px;
+        }
+    </style>
 </head>
 <body>
-    <a href="professores.html"><button >Vá para a página professores!</button></a>
+
+    <!-- Cabeçalho -->
+    <header>
+        <h1>MackImóveis<img src="https://images.vexels.com/media/users/3/136191/isolated/preview/16c4b8a7dd219b0a73309a7d99ce98e1-icone-de-casa-com-sombra.png"></h1>
+        <p>Encontre seu Imóvel Ideal</p>
+    </header>
+
+    <!-- Seção de Pesquisa -->
+    <section class="search-section">
+        <input type="text" placeholder="Digite a cidade ou bairro">
+        <button>Buscar</button>
+    </section>
+
+    <!-- Seção de Propriedades -->
+    <section class="property-section">
+        <!-- Card de Propriedade 1 -->
+        <div class="property-card">
+            <img src="https://via.placeholder.com/300x200" alt="Imagem do Imóvel">
+            <div class="property-details">
+                <h3>Apartamento Moderno no Centro</h3>
+                <p>2 Quartos • 1 Banheiro • 1 Vaga</p>
+                <p>A partir de R$ 1.200/mês</p>
+                <button>Ver Mais</button>
+            </div>
+        </div>
+        <!-- Card de Propriedade 2 -->
+        <div class="property-card">
+            <img src="https://via.placeholder.com/300x200" alt="Imagem do Imóvel">
+            <div class="property-details">
+                <h3>Casa com Quintal Amplo</h3>
+                <p>3 Quartos • 2 Banheiros • 2 Vagas</p>
+                <p>A partir de R$ 2.000/mês</p>
+                <button>Ver Mais</button>
+            </div>
+        </div>
+        <!-- Card de Propriedade 3 -->
+        <div class="property-card">
+            <img src="https://via.placeholder.com/300x200" alt="Imagem do Imóvel">
+            <div class="property-details">
+                <h3>Studio Compacto e Aconchegante</h3>
+                <p>1 Quarto • 1 Banheiro • Sem Vaga</p>
+                <p>A partir de R$ 900/mês</p>
+                <button>Ver Mais</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2024 Aluguel de Casas e Apartamentos. Todos os direitos reservados.</p>
+    </footer>
+
 </body>
 </html>

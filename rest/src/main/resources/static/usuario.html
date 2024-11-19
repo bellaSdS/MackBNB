@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <title>Gerenciamento de Propriedades</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+</head>
+
+<body>
+    <h1>Gerenciamento de Propriedades</h1>
+
+    <table id="tabelaFormulario">    
+        <tr> <td>ID:</td> <td><input type="text" id="txtId" disabled></td> </tr>
+        <tr> <td>Endereço:</td> <td><input type="text" id="txtEndereco"></td> </tr>
+        <tr> <td>Valor do Aluguel:</td> <td><input type="text" id="txtValorAluguel"></td> </tr>
+        <tr> <td>Tipo:</td> <td><input type="text" id="txtTipo"></td> </tr> 
+        <tr><td></td><td>
+            <input type="button" value="Salvar" onclick="salvarPropriedade()" id="btnSalvar">
+            <input type="button" value="Apagar" onclick="apagarPropriedade()" id="btnApagar">
+            <input type="button" value="Cancelar" onclick="cancelarEdicao()" id="btnCancelar">
+        </td></tr>
+    </table> 
+
+    <p style="font-weight:bold" id="paragrafoMensagem"></p>
+
+    <table id="tabelaPropriedades">  
+        <tr><td><input type="button" value="Nova Propriedade" onclick="novaPropriedade()" id="btnNovo"></td><td></td><td></td></tr>
+        <tr> <th>ID</th> <th>Endereço</th> <th>Valor do Aluguel</th> <th>Tipo</th> </tr>
+        <tbody id="corpoTabelaPropriedades"> </tbody>
+    </table>
+
+    <script src="rest.js"></script>
+    <script>
+        const tabelaPropriedades = document.querySelector('#tabelaPropriedades');
+        const tabelaFormulario = document.querySelector('#tabelaFormulario');
+        const corpoTabela = document.querySelector('#corpoTabelaPropriedades');
+        const paragrafoMensagem = document.querySelector('#paragrafoMensagem');
+        const txtEndereco = document.querySelector('#txtEndereco');
+        const txtValorAluguel = document.querySelector('#txtValorAluguel');
+        const txtTipo = document.querySelector('#txtTipo');
+        const txtId = document.querySelector('#txtId');
+        
+        const btnNovo = document.querySelector('#btnNovo');
+        const btnSalvar = document.querySelector('#btnSalvar');
+        const btnApagar = document.querySelector('#btnApagar');
+        const btnCancelar = document.querySelector('#btnCancelar');
+        var criandoNovaPropriedade = false;
+
+        inicializar();
+
+        function inicializar() {
+            criandoNovaPropriedade = false;
+            paragrafoMensagem.textContent = 'Pressione o botão "Nova Propriedade" ou selecione uma propriedade da lista:';
+            txtId.value = '';
+            txtEndereco.value = '';
+            txtValorAluguel.value = '';
+            txtTipo.value = '';
+            txtEndereco.disabled = true;
+            txtValorAluguel.disabled = true;
+            txtTipo.disabled = true;
+
+            btnNovo.disabled = false;
+            btnSalvar.disabled = true;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = true;
+
+            tabelaFormulario.style.display = 'none';
+            tabelaPropriedades.style.display = 'inline';
+
+            listarTodasPropriedades();            
+        }
+
+        function listarTodasPropriedades() {
+            const errorHandler = function(error) { 
+                paragrafoMensagem.textContent = "Erro ao listar propriedades (código " + error.message + ")";
+            }
+            asyncLerPropriedades(preencherTabela, errorHandler);
+        }
+        
+        function preencherTabela(propriedades) {
+            corpoTabela.innerHTML = "";
+            propriedades.forEach(p => {
+                let linha = corpoTabela.insertRow();
+                let celulaId = linha.insertCell();
+                let celulaEndereco = linha.insertCell();
+                let celulaValor = linha.insertCell();
+                let celulaTipo = linha.insertCell();
+                
+                let alink = document.createElement('a');
+                alink.textContent = p.id;
+                alink.href = "javascript:void(0)";
+                alink.onclick = function() { selecionarPropriedade(p.id); };
+                celulaId.appendChild(alink);
+                celulaEndereco.textContent = p.endereco;
+                celulaValor.textContent = p.valorAluguel;
+                celulaTipo.textContent = p.tipo;
+            });
+        }
+        
+        function selecionarPropriedade(id) {
+            criandoNovaPropriedade = false;
+            const errorHandler = function(error) { 
+                paragrafoMensagem.textContent = "Erro ao selecionar propriedade (código " + error.message + ")";
+            }
+            asyncLerPropriedadeById(id, preencherFormulario, errorHandler);                
+        }
+
+        function preencherFormulario(propriedade) {
+            paragrafoMensagem.textContent = 'Altere e salve os dados da propriedade ou apague o registro.';
+            txtId.value = propriedade.id;
+            txtEndereco.value = propriedade.endereco;
+            txtValorAluguel.value = propriedade.valorAluguel;
+            txtTipo.value = propriedade.tipo;
+            
+            txtEndereco.disabled = false;
+            txtValorAluguel.disabled = false;
+            txtTipo.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = false;
+            btnCancelar.disabled = false;
+
+            tabelaFormulario.style.display = 'inline';
+            tabelaPropriedades.style.display = 'none';
+        }
+
+        function novaPropriedade() {
+            paragrafoMensagem.textContent = 'Preencha os dados da nova propriedade...';
+            criandoNovaPropriedade = true;
+
+            txtId.value = '';
+            txtEndereco.value = '';
+            txtValorAluguel.value = '';
+            txtTipo.value = '';
+            
+            txtEndereco.disabled = false;
+            txtValorAluguel.disabled = false;
+            txtTipo.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = false;
+
+            tabelaFormulario.style.display = 'inline';
+            tabelaPropriedades.style.display = 'none';
+        }
+
+        function salvarPropriedade() {
+            if (criandoNovaPropriedade) {
+                criarPropriedade();
+            } else {
+                alterarPropriedade();
+            }
+        }
+
+        function criarPropriedade() {
+            const dadosPropriedade = {
+                'endereco': txtEndereco.value,
+                'valorAluguel': txtValorAluguel.value,
+                'tipo': txtTipo.value
+            };
+            const errorHandler = function(error) { 
+                paragrafoMensagem.textContent = 'Erro ao criar nova propriedade (código ' + error.message + ')'; 
+            }
+            asyncCriarPropriedade(dadosPropriedade, inicializar, errorHandler);
+        }
+
+        function alterarPropriedade() {
+            const dadosPropriedade = {
+                'id': txtId.value,
+                'endereco': txtEndereco.value,
+                'valorAluguel': txtValorAluguel.value,
+                'tipo': txtTipo.value
+            };
+            const errorHandler = function(error) {
+                paragrafoMensagem.textContent = 'Erro ao alterar propriedade (código ' + error.message + ')'; 
+            }
+            asyncAlterarPropriedade(dadosPropriedade, inicializar, errorHandler);         
+        }
+
+        function cancelarEdicao() {
+            inicializar();
+        }
+
+        function apagarPropriedade() {
+            const id = txtId.value;
+            const errorHandler = function(error) { 
+                paragrafoMensagem.textContent = 'Erro ao apagar propriedade (código ' + error.message + ')'; 
+            } 
+            asyncApagarPropriedade(id, inicializar, errorHandler);           
+        }
+        
+    </script>    
+</body>
+</html>
